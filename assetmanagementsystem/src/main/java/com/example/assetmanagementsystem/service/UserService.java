@@ -30,18 +30,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(int userId, User user) {
-        if (userRepository.existsById(userId)) {
-            user.setUserId(userId);
-            return userRepository.save(user);
-        }
-        throw new EntityNotFoundException("There is no user with the ID of " + userId);
+    public User updateUser(int userId, User updatedUser) {
+        User user = getUserById(userId);
+        updatedUser.setUserId(user.getUserId());
+        return userRepository.save(updatedUser);
     }
 
     public void deleteUser(int userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("There is no user with the ID of " + userId);
-        }
-        userRepository.deleteById(userId);
+        User user = getUserById(userId);
+        userRepository.delete(user);
     }
 }
