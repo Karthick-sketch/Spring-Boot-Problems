@@ -10,13 +10,13 @@ public class MockObjects {
     static User getMockUser() {
         User user = new User();
         user.setUserId(1);
-        user.setUsername("Connor");
+        user.setUsername("Kratos");
         return user;
     }
 
     static User getUpdatedMockUser() {
         User user = getMockUser();
-        user.setUsername("Haytham");
+        user.setUsername("Atreus");
         return user;
     }
 
@@ -36,11 +36,11 @@ public class MockObjects {
         return asset;
     }
 
-    static AssetHistory getMockAssetHistory(int quantity, String type) {
+    static AssetHistory getMockAssetHistory(String type) {
         AssetHistory assetHistory = new AssetHistory();
         assetHistory.setAssetId(1);
         assetHistory.setUserId(1);
-        assetHistory.setQuantity(quantity);
+        assetHistory.setQuantity(5);
         assetHistory.setType(type);
         assetHistory.setCreatedOn(LocalDate.now());
         return assetHistory;

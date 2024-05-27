@@ -1,9 +1,9 @@
-package com.example.assetmanagementsystem;
+package com.example.bookstoresystem;
 
-import com.example.assetmanagementsystem.entity.User;
-import com.example.assetmanagementsystem.exception.EntityNotFoundException;
-import com.example.assetmanagementsystem.repository.UserRepository;
-import com.example.assetmanagementsystem.service.UserService;
+import com.example.bookstoresystem.entity.User;
+import com.example.bookstoresystem.exception.EntityNotFoundException;
+import com.example.bookstoresystem.repository.UserRepository;
+import com.example.bookstoresystem.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

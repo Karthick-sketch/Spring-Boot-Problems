@@ -53,11 +53,12 @@ public class AssetServiceTest {
         Mockito.when(assetRepository.findById(assetId)).thenReturn(Optional.of(mockAsset));
         Mockito.when(assetRepository.save(updatedMockAsset)).thenReturn(updatedMockAsset);
 
-        Asset validAsset = assetService.updateAsset(assetId, updatedMockAsset);
         Executable invalidId = () -> assetService.getAssetById(2);
+        Asset validAsset = assetService.updateAsset(assetId, updatedMockAsset);
 
-        Assertions.assertEquals(updatedMockAsset, validAsset);
         Assertions.assertThrows(EntityNotFoundException.class, invalidId);
+        Assertions.assertEquals(updatedMockAsset, validAsset);
+        Mockito.verify(assetRepository, Mockito.times(1)).save(Mockito.any(Asset.class));
     }
 
     @Test
@@ -76,18 +77,19 @@ public class AssetServiceTest {
         User mockUser = MockObjects.getMockUser();
         Asset updatedMockAsset = MockObjects.getMockAsset();
         updatedMockAsset.setQuantity(updatedMockAsset.getQuantity() - quantity);
-        AssetHistory mockAssetHistory = MockObjects.getMockAssetHistory(10, "purchase");
+        AssetHistory mockAssetHistory = MockObjects.getMockAssetHistory("purchase");
 
         Mockito.when(assetRepository.findById(assetId)).thenReturn(Optional.of(mockAsset));
         Mockito.when(userService.getUserById(userId)).thenReturn(mockUser);
         Mockito.when(assetRepository.save(mockAsset)).thenReturn(updatedMockAsset);
         Mockito.when(assetHistoryRepository.save(Mockito.any(AssetHistory.class))).thenReturn(mockAssetHistory);
 
-        AssetHistory validAssetHistory = assetService.purchaseAsset(assetId, userId, quantity);
         Executable invalidQuantity = () -> assetService.purchaseAsset(assetId, userId, 15);
+        AssetHistory validAssetHistory = assetService.purchaseAsset(assetId, userId, quantity);
 
-        Assertions.assertEquals(mockAssetHistory, validAssetHistory);
         Assertions.assertThrows(BadRequestException.class, invalidQuantity);
+        Assertions.assertEquals(mockAssetHistory, validAssetHistory);
+        Mockito.verify(assetHistoryRepository, Mockito.times(1)).save(Mockito.any(AssetHistory.class));
     }
 
     @Test
@@ -97,7 +99,7 @@ public class AssetServiceTest {
         User mockUser = MockObjects.getMockUser();
         Asset updatedMockAsset = MockObjects.getMockAsset();
         updatedMockAsset.setQuantity(updatedMockAsset.getQuantity() + quantity);
-        AssetHistory mockAssetHistory = MockObjects.getMockAssetHistory(10, "return");
+        AssetHistory mockAssetHistory = MockObjects.getMockAssetHistory("return");
 
         Mockito.when(assetRepository.findById(assetId)).thenReturn(Optional.of(mockAsset));
         Mockito.when(userService.getUserById(userId)).thenReturn(mockUser);
@@ -105,7 +107,7 @@ public class AssetServiceTest {
         Mockito.when(assetHistoryRepository.save(Mockito.any(AssetHistory.class))).thenReturn(mockAssetHistory);
 
         AssetHistory validAssetHistory = assetService.purchaseAsset(assetId, userId, quantity);
-
         Assertions.assertEquals(mockAssetHistory, validAssetHistory);
+        Mockito.verify(assetHistoryRepository, Mockito.times(1)).save(Mockito.any(AssetHistory.class));
     }
 }
