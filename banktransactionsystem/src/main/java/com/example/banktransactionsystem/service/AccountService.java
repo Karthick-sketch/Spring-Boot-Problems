@@ -6,13 +6,13 @@ import com.example.banktransactionsystem.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class AccountService {
     private AccountRepository accountRepository;
+    private UserService userService;
 
     public Account getAccountById(int accountId) {
         Optional<Account> account = accountRepository.findById(accountId);
@@ -22,21 +22,26 @@ public class AccountService {
         return account.get();
     }
 
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+    public Account getAccountByUserId(int userId) {
+        Optional<Account> account = accountRepository.findByUserId(userId);
+        if (account.isEmpty()) {
+            throw new EntityNotFoundException("No accounts found");
+        }
+        return account.get();
     }
 
-    public Account createAccount(Account account) {
+    public Account createAccount(int userId, Account account) {
+        account.setUser(userService.getUserById(userId));
         return accountRepository.save(account);
     }
 
-    public Account updateAccount(int accountId, Account updatedAccount) {
-        Account account = getAccountById(accountId);
+    public Account updateAccount(int userId, Account updatedAccount) {
+        Account account = getAccountByUserId(userId);
         updatedAccount.setAccountId(account.getAccountId());
         return accountRepository.save(updatedAccount);
     }
 
-    public void deleteAccount(int accountId) {
-        accountRepository.delete(getAccountById(accountId));
+    public void deleteAccount(int userId) {
+        accountRepository.delete(getAccountByUserId(userId));
     }
 }

@@ -15,9 +15,10 @@ import java.time.LocalDate;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int transactionId;
     private int accountId;
-    private String transactionType;
     private int amount;
+    private String transactionType;
     private LocalDate transactionDate;
+    private String description;
 }

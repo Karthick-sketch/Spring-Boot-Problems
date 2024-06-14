@@ -1,5 +1,6 @@
 package com.example.banktransactionsystem;
 
+import com.example.banktransactionsystem.dto.TransactionDTO;
 import com.example.banktransactionsystem.dto.TransactionSummaryDTO;
 import com.example.banktransactionsystem.entity.Account;
 import com.example.banktransactionsystem.entity.Transaction;
@@ -24,12 +25,16 @@ public class MockObjects {
 
     static Transaction getMockTransaction(String transactionType) {
         Transaction transaction = new Transaction();
-        transaction.setId(1);
+        transaction.setTransactionId(1);
         transaction.setAccountId(1);
         transaction.setAmount(5000);
         transaction.setTransactionType(transactionType);
         transaction.setTransactionDate(LocalDate.now());
         return transaction;
+    }
+
+    static TransactionDTO getMockTransactionDTO() {
+        return new TransactionDTO(1, 5000, "withdraw", "Do transaction");
     }
 
     static TransactionSummaryDTO getMockTransactionSummaryDTO(int totalTransactions, int totalWithdrawnAmount, int totalDepositedAmount) {
